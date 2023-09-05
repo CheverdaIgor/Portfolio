@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package Igor;
+
+message Request {
+  string id = 1;
+  string name = 2;
+}
+
+message ListRequest {}
+message ListResponse { repeated Request responses = 1; }
+
+message ByIdRequest { string id = 1; }
+
+service Service {
+  rpc ReplyList (ListRequest) returns (ListResponse) {}
+  rpc ReplyByID (ByIdRequest) returns (Request) {}
+  rpc LotsOfRepliesByID (ByIdRequest) returns (stream Request) {}
+}
