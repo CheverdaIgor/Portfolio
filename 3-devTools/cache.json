@@ -1,0 +1,38 @@
+[
+  {
+    "0-caseName": "SwFooter",
+    "1-selector": "//*[@class='sw-footer']/div/div/div[2]/nav/ul/li[3]/a",
+    "2-source": "network",
+    "3-consoleDevtools": "https://o4504123186216960.ingest.sentry.io/api/4504284313681920/envelope/?sentry_key=0773e027b9934913ac888fc30bba3d0e&sentry_version=7&sentry_client=sentry.javascript.react%2F7.23.0 - Failed to load resource: the server responded with a status of 429 ()"
+  },
+  {
+    "0-caseName": "SwFooter",
+    "1-selector": "//*[@class='sw-footer']/div/div/div[2]/nav/ul/li[5]/a",
+    "2-source": "javascript",
+    "3-consoleDevtools": "https://swanker.club/wp-content/themes/swanker/dist/assets/js/tools-842856751b.js?ver=1 0:626 Uncaught TypeError: Cannot read properties of null (reading 'getAttribute')"
+  },
+  {
+    "0-caseName": "SwFooter",
+    "1-selector": "//*[@class='sw-footer']/div/div/div[2]/nav/ul/li[5]/a",
+    "2-source": "network",
+    "3-consoleDevtools": "https://o4504123186216960.ingest.sentry.io/api/4504284313681920/envelope/?sentry_key=0773e027b9934913ac888fc30bba3d0e&sentry_version=7&sentry_client=sentry.javascript.react%2F7.23.0 - Failed to load resource: the server responded with a status of 429 ()"
+  },
+  {
+    "0-caseName": "SwFooter",
+    "1-selector": "//*[@class='sw-footer']/div/div/div[3]/nav/ul/li[1]/a",
+    "2-source": "network",
+    "3-consoleDevtools": "https://o4504123186216960.ingest.sentry.io/api/4504284313681920/envelope/?sentry_key=0773e027b9934913ac888fc30bba3d0e&sentry_version=7&sentry_client=sentry.javascript.react%2F7.23.0 - Failed to load resource: the server responded with a status of 429 ()"
+  },
+  {
+    "0-caseName": "SwFooter",
+    "1-selector": "//*[@class='sw-footer']/div/div/div[3]/nav/ul/li[2]/a",
+    "2-source": "network",
+    "3-consoleDevtools": "https://o4504123186216960.ingest.sentry.io/api/4504284313681920/envelope/?sentry_key=0773e027b9934913ac888fc30bba3d0e&sentry_version=7&sentry_client=sentry.javascript.react%2F7.23.0 - Failed to load resource: the server responded with a status of 429 ()"
+  },
+  {
+    "0-caseName": "SwFooter",
+    "1-selector": "//*[@class='sw-footer']/div/div/div[3]/nav/ul/li[3]/a",
+    "2-source": "network",
+    "3-consoleDevtools": "https://o4504123186216960.ingest.sentry.io/api/4504284313681920/envelope/?sentry_key=0773e027b9934913ac888fc30bba3d0e&sentry_version=7&sentry_client=sentry.javascript.react%2F7.23.0 - Failed to load resource: the server responded with a status of 429 ()"
+  }
+]
