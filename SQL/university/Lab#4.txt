@@ -1,0 +1,78 @@
+CREATE TRIGGER TRIG_InSERT#3 ON [Stuff] 
+FOR INSERT
+ASdeclare @kod_m int
+set @kod_m=(select kod_material from inserted)
+if not EXISTS(Select kod from materials where kod=@kod_m)
+delete from stuff where kod_material=@kod_m
+
+CREATE TRIGGER TRIG_InSERT#4 ON [Sales] 
+FOR INSERT
+ASdeclare @kod_m1 int, @kod_m2 int
+set @kod_m1=(select kod_stuff from inserted)
+set @kod_m2=(select kod_customer from inserted)
+if not EXISTS(Select kod from stuff where kod=@kod_m1)
+delete from sales where kod_stuff=@kod_m1
+if not EXISTS(Select kod from stuff where kod=@kod_m2)
+delete from sales where kod_stuff=@kod_m2
+
+CREATE TRIGGER TRIG_InSERT#5 ON [Purchase] 
+FOR INSERT
+ASdeclare @kod_m1 int, @kod_m2 int
+set @kod_m1=(select kod_material from inserted)
+set @kod_m2=(select kod_provider from inserted)
+if not EXISTS(Select kod from materials where kod=@kod_m1)
+delete from purchase where kod_material=@kod_m1
+if not EXISTS(Select kod from providers where kod=@kod_m2)
+delete from purchase where kod_provider=@kod_m2
+
+CREATE TRIGGER [ProvPurc#6] ON [Providers] 
+FOR DELETE 
+AS
+delete
+from purchase
+where purchase.kod_provider in (Select providers.kod from deleted providers)
+
+CREATE TRIGGER [CustSales#7] ON [Customers] 
+FOR DELETE 
+AS
+delete
+from sales
+where sales.kod_customer in (Select customers.kod from deleted customers)
+
+CREATE TRIGGER [StuffSales#8] ON [Stuff] 
+FOR DELETE 
+AS
+delete
+from sales
+where sales.kod_stuff in (Select stuff.kod from deleted stuff)
+
+CREATE TRIGGER [StufSales#9] ON [Stuff] 
+FOR DELETE 
+AS
+DELETE
+FROM materials
+WHERE materials.kod IN ( SELECT stuff.kod_material FROM deleted stuff )
+AND NOT EXISTS ( SELECT stuff.kod
+FROM stuff INNER JOIN materials ON stuff.kod_material = materials.kod
+WHERE materials.kod IN ( SELECT stuff.kod_material FROM deleted stuff ) )
+
+CREATE TRIGGER [Stufsales#8-9] ON [Stuff] 
+FOR DELETE 
+AS
+DELETE
+FROM [Sales]
+WHERE [Sales].[kod_stuff] IN ( SELECT d.[kod] FROM [Deleted] d )
+DELETE
+FROM [Materials]
+WHERE [Materials].[kod] IN ( SELECT d.[kod_material] FROM [Deleted] d )
+AND NOT EXISTS ( SELECT [Stuff].[kod] 
+FROM [Stuff] INNER JOIN [Materials] ON [Stuff].[kod_material] = [Materials].[kod]
+WHERE [Materials].[kod] IN ( SELECT d.[kod_material] FROM [Deleted] d ) )
+
+CREATE TRIGGER [Salessklad] ON [Sales] 
+FOR DELETE 
+AS
+update Sklad
+set SKLAD.kol=(select kol from deleted)+SKLAD.kol
+
+

@@ -1,0 +1,436 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>СУБД MS SQL</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 5.50.4134.600" name=GENERATOR></HEAD>
+<BODY style="background:lightgreen">
+<CENTER>
+<H3>Лабораторная работа №1</H3></CENTER>
+<HR>
+
+<CENTER>
+<P>
+<H3><B>Знакомство с клиентской частью СУБД MS SQL. Создание базы данных.<B></H3></CENTER>
+<P>
+<DL>
+  <Font size="4"><DT><B>Цель работы:</B> </font> научиться устанавливать соединение с MS SQL-сервером  при помощи 
+	<I><B>Enterprise Manager</B></I>, уметь создавать базу данных, таблицы и строить 
+	диаграмму базы в <I><B>Enterprise Manager</B></I>.
+  <P>
+  <CENTER><DT><Font size="4"><B>  </B> </font></P></CENTER>
+
+  <P>
+  <CENTER><DT><Font size="4"><B>Порядок выполнения работы:</B> </font></P></CENTER>
+  <DD>
+  <OL>
+    <LI>В окне <I><B>Enterprise Manager</B></I> выбрать пункт меню
+      <I><B>Действие (Action) -> New SQL Server Registration</B></I>
+    <LI>В мастере регистрации выбрать из доступных серверов сервер <I><B>TEYA</B></I>, на следующей страничке
+     указать подключение с использованием <I><B>The Windows account information I use to log on 
+	to my computer </B></I> (использование имени и пароля, которые используются для работы с ОС)
+	и затем вариант <I><B>Add the SQL Server to an existing SQL Server group</B></I>.  
+    <LI>Раскрыть дерево обьектов SQL Server и в нем выбрать закладку <B><I>Databases</B></I> (базы данных). 
+    <LI>Вызвать контекстное меню и выполнить команду <B><I>New Database</I></B> (новая БД...) после чего появится 
+        окно построителя баз данных, в котором следует указать такие параметры Вашей базы данных:
+    <UL>в поле <B><I>Name</I></B> укажите свое имя пользователя - это будет имя базы данных;</UL>
+    <UL>в области <B><I>File growth</I></B> (увеличение размера файла) выберите альтернативу <B><I>In megabytes </I></B> и установите значение параметра в 1.</UL>
+    <UL>в области <B><I>Maximum file size</I></B> ограничьте размер базы данных <B><I>Restrict filegrowth(MB)=5 </I></B>.</UL>
+        <BR> Все базы данных хранятся на сервере и все, что превысит 5 MB, будет уничтожаться!!!<BR><BR>
+    <LI>Для того, чтобы создать новую табличку, нужно в своей базе данных выбрать закладку <B><I>Tables</I></B> (таблицы), вызвать контекстное меню и выбрать пункт <B><I>New Table</I></B> (новая таблица).
+    <LI>При создании таблиц может возникнуть необходимость использования автоинкрементного поля (поле, которое заполняется автоматически с указанным приростом, начиная с установленного значения). Для задания такого поля в разделе свойств этого поля устанавливают свойство <B><I>Identity  = Yes </I></B>.
+    <LI>Для создания ключевого поля в таблице следует спозиционировать курсор в данном поле и в контекстном меню воспользоваться командой <B><I>Set primary key </I></B>, либо изображением ключа на панели инструментов окна программы.</LI>
+    <LI> После создания всех таблиц Вашей базы данных (Но перед заполнением таблиц!!!) для обеспечения целостности данных все таблицы нужно связать в диаграмму. Для этого выбирается закладка  <B><I> Diagrams</I></B>, вызывается контекстное меню и выполняется команда <B><I>New database diagram</I></B>. При построении диаграммы Вы используете только собственноручно созданные таблицы. В окне диаграммы нужно связать таблицы по ключевым полям.</LI>
+     <LI>Заполнить созданные таблицы данными (не менее 10-ти записей в каждой таблице). Для заполнения таблицы данными нужно выбрать таблицу, вызвать на ней контекстное меню и выполнить команду  <B><I> Open table  -> Return all rows </I></B> . 
+   </OL>
+   
+<center><H2>Список таблиц базы данных:</H2></center>
+    <table BORDER cellspacing=1 cellpadding=7 width=100%>
+    <tr> 
+      <td width="15%" valign="TOP"> 
+        <p align="CENTER"><font face="Arial, Helvetica, sans-serif" size="2">Название 
+          таблицы</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p align="CENTER"><font face="Arial, Helvetica, sans-serif" size="2">Список 
+          полей таблицы</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p align="CENTER"><font face="Arial, Helvetica, sans-serif" size="2">Типы 
+          полей таблицы-длина</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p align="CENTER"><font face="Arial, Helvetica, sans-serif" size="2">Индексы</font>
+      </td>
+      <td width="40%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Описание поля</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="15%" valign="TOP" rowspan=4> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Materials</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Primary</font>
+      </td>
+      <td width="40%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Уникальный код материала</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Name</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">С 70</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="40%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Название материала</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Ed_izm</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 20</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="40%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Единица измерения материала</font>
+      </td>
+    </tr>
+     
+    <tr> 
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Price</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.2</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="40%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Цена закупки единицы материала</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="20%" valign="TOP" rowspan=6> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Stuff</font>
+      </td>
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Primary</font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Уникальный код изделия</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Name</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 50</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Наименование изделия</font>
+      </td>
+    </tr>
+     <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Ed_izm</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 20</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Единица измерения изделия</font>
+      </td>
+    </tr>
+
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod_material</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код материала для изделия</font>
+      </td>
+    </tr>
+   <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Rasxod</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.2</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Расход материала на одно изделие</font>
+      </td>
+    </tr>
+
+ <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Cena</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.2</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Цена изделия</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="20%" valign="TOP" rowspan=4> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Providers</font>
+      </td>
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"> Primary </font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код поставщика</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Name</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 50</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"></font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Название фирмы-поставщика</font>
+      </td>
+    </tr>
+
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">FIO</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 70</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"></font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">ФИО директора фирмы-поставщика</font>
+      </td>
+    </tr>
+
+   <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Tel</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 20</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"></font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Телефон фирмы-поставщика</font>
+      </td>
+    </tr>
+
+    <tr> 
+      <td width="20%" valign="TOP" rowspan=4> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Customers</font>
+      </td>
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Primary</font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код покупателя</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Name</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 50</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Наименование фирмы-покупателя
+          </font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">FIO</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">С 70</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">ФИО директора фирмы-покупателя</font>
+      </td>
+    </tr>
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Tel</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">C 20</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Телефон покупателя</font>
+      </td>
+    </tr>
+    
+    <tr> 
+      <td width="20%" valign="TOP" rowspan=4> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Purchase</font>
+      </td>
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod_provider</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"></font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код поставщика</font>
+      </td>
+    </tr>
+    
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod_material</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код материала для закупки </font>
+      </td>
+    </tr>
+
+<tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kol</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.2</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Количество материала для закупки </font>
+      </td>
+    </tr>
+
+  <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Data</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">D</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Дата закупки </font>
+      </td>
+    </tr>
+<tr> 
+      <td width="20%" valign="TOP" rowspan=4> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Sales</font>
+      </td>
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod_customer</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"></font>
+      </td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код покупателя</font>
+      </td>
+    </tr>
+    
+    <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kod_stuff</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.0</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Код изделия для продажи </font>
+      </td>
+    </tr>
+
+<tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Kol</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">N 11.2</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Количество изделий для продажи </font>
+      </td>
+    </tr>
+
+  <tr> 
+      <td width="17%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">Data</font>
+      </td>
+      <td width="16%" valign="TOP"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif">D</font>
+      </td>
+      <td width="15%" valign="TOP"><font face="Arial, Helvetica, sans-serif"></font></td>
+      <td width="32%" valign="TOP"> 
+        <p><font face="Arial, Helvetica, sans-serif" size="2">Дата продажи </font>
+      </td>
+    </tr>
+
+  </table>
+<UL>
+10. Оформить отчет по выполненной работе. В отчет вынести теоретические сведения, освоенные в ходе выполнения работы. Быть готовым к защите!!!
+</UL>
+ <BR>
+ <BR>
+  </BODY></HTML>

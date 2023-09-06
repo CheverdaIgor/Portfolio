@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>СУБД MS SQL</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META content="MSHTML 5.50.4134.600" name=GENERATOR></HEAD>
+<BODY style="background:lightgreen">
+<CENTER>
+<H3>Лабораторная работа №3</H3></CENTER>
+<HR>
+
+<CENTER><DT><font size="4"><B>Хранимые процедуры MS SQL</B> </font></DT></CENTER><BR>
+<P>
+<DL>
+ 
+  <DT><B>Цель:</B> научиться создавать и использовать хранимые процедуры MS SQL, знакомство с курсором, получение информации о своей базе данных. </DT><BR><BR>
+ 
+<CENTER><DT><font size="4"><B>  </B> </font></DT></CENTER><BR>
+
+   <CENTER><DT><font size="4"><B>Порядок выполнения работы:</B> </font></DT></CENTER><BR>
+
+  <OL>
+	<LI>В собственной базе данных перейти на закладку <B>Stored Procedures</B> и в контекстном меню выполнить команду  <B>New Stored Procedure...</B>. В открывшемся окне ввести текст хранимой процедуры. При этом кнопка <B>Check syntax</B> позволяет проверить текст Вашей процедуры на соответствие синтаксическим правилам языка.</li><BR><BR>
+        
+       <LI>Для того, чтобы управлять разрешениями на использование данной процедуры, воспользуйтесь кнопкой <B>Permissions</B>.</li><BR><BR>
+
+	<LI>Создайте наипростейшую процедуру (например, выведение перечня всех иделий, цена которых больше указанной Вами в качестве параметра процедуры цены) по шаблону:</li>
+	
+	<P><I>CREATE PROCEDURE [proc_name] (@param_name [param_type])<BR>
+                 AS SELECT [field] FROM [MyDb_name].[owner].[MyTable_name]<BR>
+                 WHERE ([some_field_value=@param_name ])</I></P>
+	где 
+<UL>
+<LI><B><I>proc_name</I></B> - имя хранимой процедуры, 
+<LI><B><I>(@param_name [param_type])</I></B> - параметр процедуры с необязательным указанием типа, 
+<LI><B><I>field</I></B> - выбираемое для отображения поле таблицы, 
+<LI><B><I>MyDb_name</I></B> - имя Вашей базы данных (необязательно), 
+<LI><B><I>owner</I></B> - владелец базы данных (необязательно), 
+<LI><B><I>MyTable_name</I> </B>- имя таблицы базы данных для выборки набора данных, 
+<LI><B><I>WHERE ([some_field_value=@param_name ])</I></B> - условие, налагаемое на выборку.
+</UL>
+
+	<LI>Для выполнения созданной процедуры запустите <I><B>Query Analyzer</B></I> и введите код:<BR>
+         <B>Execute <I>stored_procedure_name </I></B> , если процедура без параметров<BR> 
+         либо <B>Execute <I>stored_procedure_name </I> @param_name1=param_value1,... </B> ,<BR>  
+         либо <B>Execute <I>stored_procedure_name </I> param_value1,... </B> , если процедура с параметрами.<BR> 
+</li><BR>
+
+
+   <LI> Не используя операции MIN, MAX и AVG найти минимальное, максимальное и среднее
+       значения поля таблицы по выбору (например, по таблице изделий). Для этого нужно: </LI>
+<UL>
+ <LI>объявить необходимые переменные  <BR>  <B><I>DECLARE @var1 VarType1, @var2 VarType2,...</I></B>
+<LI>создать курсор <BR> <B><I>DECLARE cursor_name CURSOR SCROLL FOR <BR> SELECT ... FROM ...</I></B> 
+<LI>открыть курсор <BR>  <B><I>OPEN cursor_name </I></B> </LI>
+<LI>считать первую запись из курсора <BR><B><I>FETCH FIRST FROM cursor_name INTO @var1, @var2,...</I></LI></B>
+<LI>в цикле перебрать все строки из курсора для поиска нужного значения; условием окончания цикла  будет проверка на наличие строк в наборе <BR>  <B><I>WHILE @@FETCH_STATUS = 0 <BR> BEGIN<BR> ...<BR>END</I></B></LI>
+<LI>вывести результаты работы процедуры на экран <BR> <B><I>print "Максимум = " + @var1 </I> </B></LI>
+<LI>зарыть курсор после использования <BR><B><I>CLOSE cursor_name</I></B>
+<LI>освободить память из-под курсора <BR><B><I>DEALLOCATE cursor_name</I></B>
+</UL><BR>
+<LI>Проверить работоспособность хранимой процедуры в <I><B>Query Analyzer</B></I>. 
+<BR><BR>
+
+<LI>Создать хранимую процедуру, которая будет выводить информацию о сервере, текущей базе данных, 
+     системном пользователе, текущем пользователе при помощи функций:<BR>
+<UL><LI>CURRENT_USER
+         <LI>HOST_NAME()
+         <LI>SYSTEM_USER
+         <LI>APP_NAME()
+         <LI>DB_NAME()
+         <LI>GETDATE()
+     </UL><BR>
+  
+ <LI>Получить информацию о базе данных при помощи хранимых процедур:  :<BR>
+<UL><LI><I><B>sp_helpdb</B></I> - информация о базе/базах данных
+         <LI><I><B>sp_tables</B></I> - информация о таблицах
+         <LI><I><B>sp_table_privileges</B></I> - права доступа в заданной таблице 
+         <LI><I><B>sp_statistics</B></I> - информация об индексах заданной таблицы
+         <LI><I><B>sp_columns</B></I> - список полей таблицы
+         <LI><I><B>sp_column_privileges</B></I> - права доступа к полям таблицы 
+        
+     </UL>
+Уметь объяснить полученную инфоромацию.<BR><BR>
+  
+  <LI>Создать процедуру, которая будет выводить перечень имеющихся изделий с пометкой "дорогое"/"дешевое" в столбце DOSTUPNOST, для чего использовать конструкцию <BR>
+<I><B>CASE <BR>
+        WHEN field_name < value1 THEN 'text1'<BR>
+        WHEN field_name > value2 THEN 'text2'<BR>
+        ELSE 'default_text'<BR>
+       END AS "DOSTUP" </B></I> <BR>
+при написании запроса для отбора данных. В этой же процедуре подсчитать количество единиц выпускаемых изделий и их суммарную стоимость при помощи опции <I><B>Compute</B></I>, например:<BR>
+     <I><B>  select name from stuff<BR>
+              compute count(name)</B></I> <BR>
+
+<LI>Используя все ту же опцию <I><B>Compute</B></I>, подсчитайте суммарную стоимость закупленного матерала и суммарную стоимость реализованных товаров.<BR>
+<LI>Не забудьте оформить все процедуры в отчете для дальнейшей защиты ВАШЕЙ лабораторной работы!       
+
+  </BODY></HTML>

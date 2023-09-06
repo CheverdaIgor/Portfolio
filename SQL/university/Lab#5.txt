@@ -1,0 +1,6 @@
+CREATE TRIGGER TRIG_InSERT#1 ON [SKLAD] 
+FOR INSERT
+ASdeclare @kod_m int
+set @kod_m=(select izdelie from inserted)
+if not EXISTS(Select kod from stuff where kod=@kod_m)
+delete from SKLAD where izdelie=@kod_m

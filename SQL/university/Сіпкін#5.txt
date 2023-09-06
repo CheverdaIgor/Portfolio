@@ -1,0 +1,74 @@
+CREATE PROCEDURE edit_table (@an char(70), @bn char(70),@p numeric) AS
+DECLARE @f numeric,@d numeric
+IF @p=0
+     IF NOT EXISTS (SELECT a.Name FROM Materials a WHERE a.Name=@bn)
+         BEGIN
+             INSERT INTO Materials (Name,Ed_izm,Price) VALUES(@bn,'шт',0)          
+             SELECT @d=b.kod FROM Materials b WHERE b.kod IN (SELECT b.kod FROM Materials b WHERE b.name = @bn)
+             --PRINT @d 
+             INSERT INTO Stuff (Name,Ed_izm,Kod_material,Rasxod,cena) VALUES(@an,'шт',@d,0,0)
+           END
+        ELSE
+           BEGIN
+              PRINT 'Такой материал уже есть'
+              PRINT 'Добавляю изделие'
+              SELECT @d=b.kod FROM Materials b WHERE b.kod IN (SELECT b.kod FROM Materials b WHERE b.name = @bn)
+              --PRINT @d 
+              INSERT INTO Stuff (Name,Ed_izm,Kod_material,Rasxod,cena) VALUES(@an,'шт',@d,0,0)
+          END 
+IF @p=1
+   BEGIN
+      SELECT @f=a.Kod FROM Materials a WHERE a.Kod IN (SELECT a.Kod FROM Materials a WHERE a.Name = @bn) 
+      SELECT @d=b.kod FROM Stuff b WHERE b.kod IN (SELECT b.kod FROM Stuff b WHERE b.name = @an)
+         DELETE FROM Stuff WHERE Kod_material=@f and Kod=@d
+   END
+IF @p=2
+   BEGIN
+     UPDATE Stuff SET Name= 'edit' WHERE Name=@an      
+     UPDATE Materials SET Name= 'edit' WHERE Name=@bn
+      
+   END
+GO
+
+--execute procc2 @an = "Визитк", @bn = "Бумага печатная",@p = 0
+--execute procc2 @an = "test_staf", @bn = "test_material",@p = 1
+--execute procc2 @an = "test_staf", @bn = "test_material",@p = 2
+--select * from Stuff
+--select * from Materials
+
+CREATE PROCEDURE prod (@rn char(70), @p numeric) AS
+DECLARE @f numeric,@d numeric               
+SELECT @d=b.kod FROM Stuff b WHERE b.kod IN (SELECT b.kod FROM Stuff b WHERE b.Name = @rn)
+SELECT @f=a.kol FROM Sklad a WHERE a.kol IN (SELECT a.kol FROM Sklad a WHERE a.izdelie = @d) 
+IF @f>@p
+   BEGIN
+                      INSERT INTO Sales (Kod_customer,Kod_stuff,Kol,Data) VALUES(0,@d,@p,getdate())
+                      DELETE FROM Sklad WHERE izdelie=@d and kol=@f
+                      INSERT INTO Sklad (izdelie,kol) VALUES(@d,@f-@p)
+                      --UPDATE Sklad SET kol=kol-@p WHERE izdelie IN(SELECT b.kod FROM Stuff b WHERE b.Name=@rn)
+   END
+IF @f=@p 
+   BEGIN
+                      INSERT INTO Sales (Kod_customer,Kod_stuff,Kol,Data) VALUES(0,@d,@p,getdate())
+                      DELETE FROM Sklad WHERE izdelie=@d and kol=@f
+                      END
+IF @f<@p
+   BEGIN
+                      PRINT 'Недостаток товара '
+                      INSERT INTO Sales (Kod_customer,Kod_stuff,Kol,Data) VALUES(0,@d,@f,getdate())
+                      DELETE FROM Sklad WHERE izdelie=@d and kol=@f
+                 END
+GO
+
+CREATE TRIGGER [salesstcust] ON [Sales] 
+FOR INSERT
+AS
+IF (Not EXISTS(SELECT i.[Kod_customer],  i.[Kod_Stuff] FROM [Inserted] i
+ WHERE  i.[Kod_customer] IN (SELECT m.[kod] FROM [customers] m ) and i.[Kod_Stuff] IN (SELECT m.[kod] FROM [Stuff] m)))
+BEGIN
+ROLLBACK TRAN
+END
+
+execute prod @rn = "Визитки", @p = 25, @ss = "Приват банк"
+select * from Sklad
+select * from Sales

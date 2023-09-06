@@ -1,0 +1,111 @@
+--------------------------------------------------------------------------------
+/*Создать таблицу Workers*/
+
+/*CREATE TABLE Workers
+(kod int,
+name char(50),
+salary numeric(11,2));*/
+--------------------------------------------------------------------------------
+/*Добавить к уже созданной таблице поле Data*/
+
+/*ALTER TABLE Workers add date datetime;*/
+--------------------------------------------------------------------------------
+/*Заполнить таблицу Workers данными*/
+
+/*INSERT INTO Workers VALUES(1000, 'Ivanov A.T.', 2500, '10.02.2007');
+INSERT INTO Workers VALUES(1001, 'Makarov B.A.', 2400, '11.02.2007');
+INSERT INTO Workers VALUES(1002, 'Antonov C.N.', 2300, '12.02.2007');
+INSERT INTO Workers VALUES(1003, 'Shanuk D.A.', 2200, '9.02.2007');
+INSERT INTO Workers VALUES(1004, 'Sipkin F.P.', 2000, '10.02.2007');
+INSERT INTO Workers VALUES(1005, 'Bydnik G.A.', 2000, '12.02.2007');
+INSERT INTO Workers VALUES(1006, 'Kravtsov K.R.', 1900, '11.02.2007');*/
+--------------------------------------------------------------------------------
+/*Удалить записи в которых salary=2000*/
+
+/*Delete From Workers Where salary=2000;*/
+--------------------------------------------------------------------------------
+/*Изменить данные в таблице из 2500 на 1900*/
+
+/*UPDATE Workers Set salary=1900 Where (salary=2500);*/
+--------------------------------------------------------------------------------
+/*Очистить таблицу*/
+
+/*TRUNCATE TABLE Workers;*/
+--------------------------------------------------------------------------------
+/*Удалить таблицу*/
+
+/*Drop Table Workers;*/
+--------------------------------------------------------------------------------
+/*Отобразить наименования(name) всех изделий Stuff*/
+
+/*SELECT name FROM Stuff;*/
+--------------------------------------------------------------------------------
+/*Отобразить неповторяющиеся(DISTINCT) значения поля Rasxod таблицы Stuff*/
+
+/*SELECT DISTINCT Rasxod FROM Stuff;*/
+--------------------------------------------------------------------------------
+/*Объединения таблиц Materials и Stuff с полями Materials(kod, name)
+и Stuff.name AS Expr2 с Объединением INNER JOIN*/
+
+/*SELECT Materials.kod, Materials.name, Stuff.name AS Expr2
+FROM Materials INNER JOIN
+    Stuff ON Materials.kod = Stuff.kod_material*/
+--------------------------------------------------------------------------------
+/*Объединения таблиц Materials и Stuff с полями Materials(kod, name)
+и Stuff.name AS Expr2 с Объединением Left OUTER JOIN*/
+
+/*SELECT Materials.kod, Materials.name, Stuff.name AS Expr2
+FROM Materials Left OUTER JOIN
+    Stuff ON Materials.kod = Stuff.kod_material*/
+--------------------------------------------------------------------------------
+/*Объединения таблиц Materials и Stuff с полями Materials (name, price)
+и Stuff (name AS Expr2 и rasxod) с Объединением INNER JOIN, где price > 5 и группируется по Stuff.name*/
+
+/*SELECT Materials.name, Stuff.name AS Expr2, Stuff.rasxod, Materials.price
+FROM Materials INNER JOIN
+    Stuff ON Materials.kod = Stuff.kod_material 
+WHERE (Materials.kod = Stuff.kod_material) and (Materials.price > 5 )
+ORDER BY Stuff.name;*/
+----------------------------------------
+--------------------------------------------------------------------------------
+/*Выборку данных с объединением (UNION) данных из двух SELECT-ов
+группируется по увеличению Materials.price и Purchase.Kod_provider*/
+
+/*SELECT Purchase.Kod_provider, Purchase.Kod_material
+FROM Purchase
+union
+SELECT Materials.price, Materials.Kod
+FROM Materials;*/
+--------------------------------------------------------------------------------
+/*Выборку данных с группировкой (GROUP BY) и использованием функций AVG, COUNT, MAX, MIN, SUM*/
+
+/*SELECT count(Materials.price),Materials.price
+FROM Materials 
+Group BY Materials.price;*/
+
+/*SELECT max(Materials.price),Materials.price
+FROM Purchase, Materials 
+where Purchase.Kod_material = Materials.Kod 
+Group BY Materials.price;*/
+
+/*SELECT min(Materials.price),Materials.price
+FROM Purchase, Materials 
+where Purchase.Kod_material = Materials.Kod 
+Group BY Materials.price;*/
+
+/*SELECT sum(Materials.price),Materials.price
+FROM Purchase, Materials 
+where Purchase.Kod_material = Materials.Kod 
+Group BY Materials.price;*/
+
+/*SELECT avg(Materials.price),Materials.price
+FROM Purchase, Materials 
+where Purchase.Kod_material = Materials.Kod 
+Group BY Materials.price;*/
+--------------------------------------------------------------------------------
+SELECT     Customers.Name, count(Customers.Name) AS Expr2
+FROM       Sales INNER JOIN    
+Customers ON Sales.Kod_customer = Customers.Kod
+--WHERE (Sales.Kod_customer = Customers.Kod) and (Sales.Kod_customer > 10004)
+Group BY Customers.Name;
+--------------------------------------------------------------------------------

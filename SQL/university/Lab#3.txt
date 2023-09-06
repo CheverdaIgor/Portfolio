@@ -1,0 +1,235 @@
+--------------------------------------------------------------------------------
+
+/*Создайте наипростейшую процедуру
+(например, выведение перечня всех иделий, цена которых больше указанной Вами
+в качестве параметра процедуры цены) по шаблону:
+
+CREATE PROCEDURE [proc_name] (@param_name [param_type])
+AS SELECT [field] FROM [MyDb_name].[owner].[MyTable_name]
+WHERE ([some_field_value=@param_name ])
+
+где 
+proc_name - имя хранимой процедуры, 
+(@param_name [param_type]) - параметр процедуры с необязательным указанием типа, 
+field - выбираемое для отображения поле таблицы, 
+MyDb_name - имя Вашей базы данных (необязательно), 
+owner - владелец базы данных (необязательно), 
+MyTable_name - имя таблицы базы данных для выборки набора данных, 
+WHERE ([some_field_value=@param_name ]) - условие, налагаемое на выборку.*/
+
+********************************************************************************
+/*CREATE PROCEDURE Igor @max int
+AS SELECT Name FROM Stuff
+WHERE Cena = @max
+GO*/
+********************************************************************************
+--------------------------------------------------------------------------------
+
+/*Для созданния процедуры в Query Analyzer*/
+
+/*Execute Igor @max=50;*/
+--------------------------------------------------------------------------------
+
+/*Объявить необходимые переменные*/
+DECLARE @max int, @min int, @avg int, @memory int, @c int
+
+/*Создать курсор*/
+/*DECLARE cursor2 CURSOR SCROLL FOR 
+SELECT cena FROM Stuff*/
+
+/*Открыть курсор*/   
+/*OPEN cursor2*/
+
+/*Считать первую запись из курсора*/
+/*FETCH FIRST FROM cursor2 INTO @memory
+set @min = @memory
+set @max = @memory
+set @avg = @memory
+set @c = 1*/
+
+/*В цикле перебрать все строки из курсора для поиска нужного значения;
+условием окончания цикла будет проверка на наличие строк в наборе*/
+/*WHILE @@FETCH_STATUS = 0 
+BEGIN
+	fetch next from cursor2 into @memory
+	if @memory < @min
+	begin
+		set @min = @memory
+	end
+	if @memory > @max
+	begin
+		set @max = @memory
+	end
+	set @avg = @avg + @memory
+	set @c = @c + 1
+        set @avg = @avg / @c*/
+END*/
+
+/*Вывести результаты работы процедуры на экран*/ 
+/*print 'Максимум = ' + cast(@max as char(10))
+print 'Минимум = ' + cast(@min  as char(10))
+print 'Среднее = ' + cast(@avg  as char(10))*/
+
+/*Зарыть курсор после использования*/
+/*CLOSE cursor2*/
+ 
+/*Освободить память из-под курсора*/
+/*DEALLOCATE cursor2*/
+--------------------------------------------------------------------------------
+
+/*Создать хранимую процедуру, которая будет выводить информацию о сервере,
+текущей базе данных, системном пользователе, текущем пользователе при помощи функций:*/
+
+Print CURRENT_USER /*Возврат имя текущего пользователя*/
+Print HOST_NAME() /*Возврат имени клиентского компа с которого был послан запрос*/
+Print SYSTEM_USER /*Возврат имени учётной записи*/
+Print APP_NAME() /*Возврат имя приложения выполнившего функцию*/
+Print DB_NAME(1) /*Возврат имя базы даных по его индеф. номеру*/
+Print GETDATE() /*Возврат системного времени*/
+--------------------------------------------------------------------------------
+
+/*Получить информацию о базе данных при помощи хранимых процедур:*/
+--exec sp_helpdb -- информация о базе/базах данных
+/*name - владелец базы данных
+db_size - размер базы данных
+owner - идентификация компьютера в сети(имя компьютера) и владелец базы данных
+Status - Статус
+(Status = ONLINE - Статус в сети
+User Access - Пользовательский Доступ
+Recovery – Обновление
+Collation – Сопоставление
+Sort Order - Сортировка заказа
+Is Torn Pаge Detection Enаbled - Разорванное разрешенное обнаружение страницы
+Is Auto Creаte Stаtistics – Автоматическое создание статистики
+Is Auto Updаte Stаtistics – Автоматическая модификация статистики)*/
+
+--exec sp_tables -- информация о таблицах
+/*Table qualifier – Определитель таблицы
+Table owner – Владелец таблицы
+Table name – Имя таблицы
+Table type – Тип таблицы
+view - представления*/
+
+--exec sp_table_privileges Materials -- права доступа в заданной таблице
+/* Table qualifier – Определитель таблицы
+Table owner – Владелец таблицы
+Table name – Имя таблицы
+Privilege - Привилегия
+(delete - удаление
+insert - вставка
+references - ссылки
+select - выберите
+update - модификация)*/
+
+--exec sp_statistics Materials -- информация об индексах заданной таблицы
+/* Table qualifier – Определитель таблицы
+Table owner – Владелец таблицы
+Table name – Имя таблицы
+Non unique - Не уникальный
+Index qualifier - Индексный определитель
+Index  name - Индексное  имя
+Type - Тип
+Seq in index - Seq в индексе
+Column name – Имя колонки
+Collation - Сопоставление
+Cardinality - Мощность
+Pages - Страницы
+Filter condition - Фильтрующее условие*/
+ 
+--exec sp_columns Materials -- список полей таблицы
+/* Table qualifier – Определитель таблицы
+Table owner – Владелец таблицы
+Table name – Имя таблицы
+Column name - Имя колонки
+Date type - Тип даных
+Type name - Тип имени
+(numeric - числовой
+char - символ)
+Precision - Точность
+Length - Длина
+Scale - Масштаб
+Radix - Источник
+Remarks - Замечания
+Column def - Определение колонки
+SQL date type - Тип даты SQL
+SQL date time sub - Подписка времени даты SQL
+Char octet length – Восьми символьная длина
+Ordinal position - Порядковая позиция
+Is nullable - Есть nullаble
+SS date type - Тип даты*/
+ 
+--exec sp_column_privileges Materials -- права доступа к полям таблицы
+/* Table qualifier – Определитель таблицы
+Table owner – Владелец таблицы
+Table name – Имя таблицы
+Column name - Имя колонки
+Privilege - Привилегия
+(delete - удаление
+insert - вставка
+references - ссылки
+select - выберите
+update - модификация)*/
+--------------------------------------------------------------------------------
+
+*/Создать процедуру, которая будет выводить перечень имеющихся изделий с пометкой 
+"дорогое"/"дешевое" в столбце DOSTUPNOST, для чего использовать конструкцию*/
+
+/*При написании запроса для отбора данных. В этой же процедуре подсчитать количество
+единиц выпускаемых изделий и их суммарную стоимость при помощи опции Compute, например:
+select name from stuff
+compute count(name)*/ 
+
+/*select Stuff.[name], sales.kol, sales.kol * stuff.cena as "suma zakupki", CASE 
+WHEN Stuff.Cena < 100 THEN 'дешевое'
+WHEN Stuff.Cena > 100 THEN 'дорогое'
+ELSE 'неизвестно'
+END AS "DOSTUP" 
+from stuff inner join sales
+on stuff.kod = sales.kod_stuff
+compute sum(sales.kol)
+compute sum(sales.kol * stuff.cena)*/
+--------------------------------------------------------------------------------
+
+/*Используя все ту же опцию Compute, подсчитайте суммарную стоимость закупленного
+матерала и суммарную стоимость реализованных товаров*/ 
+
+/*select materials.name, materials.price, Purchase.kol, materials.price * Purchase.kol as "suma zakupki"
+from Materials inner join Purchase
+on materials.kod = Purchase.kod_material
+compute sum(materials.price * Purchase.kol)*/
+
+/*select Stuff.name, Stuff.Cena, Sales.kol, Stuff.Cena * Sales.kol as "suma prodazy"
+from Stuff inner join Sales
+on Stuff.kod = Sales.kod_Stuff
+compute sum(Stuff.Cena * Sales.kol)*/
+--------------------------------------------------------------------------------
+                              /*Don't my*/
+
+/*select _Name,_Count from books
+compute count(_Name),sum(_Count)*/
+********************************************************************************
+
+/*Select Name, exptime,
+Case -- в случае
+When(exptime > getdate())Then '--'
+Else ' Должник '
+End As status
+from Readers Inner Join OnHand
+On Readers.kod=OnHand.Reader_kod  
+Compute count(Name)*/
+********************************************************************************
+
+/*select Name,_Count from readers
+compute count(Name),sum(_Count) */
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+select materials.name, materials.price, Purchase.kol, materials.price * Purchase.kol as "suma zakupki", CASE
+WHEN materials.price * Purchase.kol < 500 THEN 'Garna pokupka'
+WHEN materials.price * Purchase.kol > 500 THEN 'Negarna pokupka'
+END AS "cazestvo" 
+from Materials inner join Purchase
+on materials.kod = Purchase.kod_material
+Order BY materials.Name
+compute sum(materials.price * Purchase.kol)
+--------------------------------------------------------------------------------
