@@ -1,18 +1,28 @@
-# Portfolio1
+Webdriver.io Sample Work
+Webdriver.io Without pageObjects
+Watch Video
 
-# Мое портфолио
+In this example, I demonstrate how to use Webdriver.io for automated testing without pageObjects.
 
-Добро пожаловать в мое портфолио! Здесь вы можете ознакомиться с моими работами и проектами.
+Webdriver.io With pageObjects
+Watch Video
 
-## Пример видео
+In this example, I showcase the use of Webdriver.io with the pageObjects design pattern.
 
-Вы можете посмотреть пример видео, связанного с одним из моих проектов:
+Webdriver.io With devTools
+Watch Video
 
-<video width="320" height="240" controls>
-  <source src="1-specs.mp4" type="video/mp4">
-  Ваш браузер не поддерживает видео HTML5.
-</video>
+Here, I illustrate the usage of Webdriver.io with Chrome DevTools for enhanced testing capabilities.
 
-## Мои проекты
+Webdriver.io With REST API
+Watch Video
 
-(Здесь перечислите ваши проекты и описания к ним)
+This demonstration highlights the integration of Webdriver.io with RESTful API testing.
+
+Bonus: Test Gorilla
+Watch Video
+
+Explore an additional project, "Test Gorilla," which showcases my skills and creativity in automated testing.
+
+Unfinished gRPC Project
+Feel free to explore my work-in-progress gRPC project. While the server and client are functional, the code is located in the "6-gRPC" folder.
