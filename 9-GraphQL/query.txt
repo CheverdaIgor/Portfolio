@@ -1,0 +1,7 @@
+query MyQuery {
+    users {
+        id
+        name
+        created_at
+    }
+}
