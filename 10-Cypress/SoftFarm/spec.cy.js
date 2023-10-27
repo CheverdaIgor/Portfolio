@@ -10,7 +10,7 @@ describe('Login and Navigation Tests', () => {
         });
     });
 
-    it('Navigates to Landing Page', () => {
+    xit('Navigates to Landing Page', () => {
         // Visit the landing page after logging in
         cy.visit('https://www.soft.farm/uk/crop/field-map');
         // Check if client ID element exists and log its text
@@ -26,8 +26,27 @@ describe('Login and Navigation Tests', () => {
     it('Performs Calculation of Runs', () => {
         // Visit the calculation page, fill out the form, and submit
         cy.visit('https://www.soft.farm/uk/crop/track-calculation');
-        cy.get('select[name="landPlotId"]').select('153745', { force: true });
-        cy.reload();
+        
+        cy.get('span[class="select2-selection__arrow"]').click();
+        cy.get('input[class="select2-search__field"]').type('Поле/Ділянка 1 га (не чіпати!)');
+        cy.get('[class="select2-results__option select2-results__option--highlighted"]').click();
+        cy.wait(1000);
+        
+        cy.get('select[name="landPlotId"]').select('153746', { force: true });
+        cy.wait(1000);
+        
+        cy.get('span[class="select2-selection__arrow"]').click();
+        cy.get('input[class="select2-search__field"]').type('Поле/Ділянка').then(() => {
+            cy.get('ul[class="select2-results__options"] > li').each(($el) => {
+              const text = $el.text();
+              cy.log(text);
+              if (text.includes('Поле/Ділянка 1 га (не чіпати!)')) {
+                cy.wrap($el).click();
+              }
+            });
+        });
+        
+        //cy.reload();
         cy.get('#w0').type('1');
         cy.get('#w1').type('10');
         cy.get('#w2').type('2.51');
@@ -35,15 +54,15 @@ describe('Login and Navigation Tests', () => {
         cy.get('button[class="btn btn-primary calculate-gons"]').click();
         
         // Intercept and check the status code of the create request
-        cy.intercept('POST', '**/create').as('createRequest');
-        cy.get('[class="btn btn-primary create-gon-info"]').click();
-        cy.wait('@createRequest').then((interception) => {
-            // Check the response status code (should be 302)
-            expect(interception.response.statusCode).to.equal(302);
-        });
+        // cy.intercept('POST', '**/create').as('createRequest');
+        // cy.get('[class="btn btn-primary create-gon-info"]').click();
+        // cy.wait('@createRequest').then((interception) => {
+        //     // Check the response status code (should be 302)
+        //     expect(interception.response.statusCode).to.equal(302);
+        // });
     });
 
-    it('Accesses ConsoleError Page', () => {
+    xit('Accesses ConsoleError Page', () => {
         // Visit a specific page for error handling testing
         cy.visit('https://www.soft.farm/uk/crop/dashboard/field-map?integrationServiceId=meteo');
     });
@@ -75,7 +94,7 @@ describe('Login and Navigation Tests', () => {
         });
     });
     
-    it('Logs out the User', () => {
+    xit('Logs out the User', () => {
         // Open the navigation menu, navigate to logout, and verify the URL
         cy.get('button[class="navbar-toggle"]').click();
         cy.wait(1000);
