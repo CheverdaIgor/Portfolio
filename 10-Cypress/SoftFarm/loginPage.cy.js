@@ -7,7 +7,14 @@ class LoginPage {
             cy.get('input[type="checkbox"]').click();
             cy.get('.btn-login').click();
             cy.wait(5000);
+
             cy.url().should('contain', '/uk/crop/field-map');
+            cy.location('pathname').should('eq', '/uk/crop/field-map');
+
+            cy.getCookies('SoftFarmIdentity').should('exist');
+            cy.document()
+            .its('cookie')
+            .should('exist');
         },
         {
         validate() {
