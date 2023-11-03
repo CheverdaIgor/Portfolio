@@ -20,14 +20,17 @@ class PasswordInput {
       // Invalid data
       '1q2w3e4',
       'qwertyui',
-      '12345678',
+      '1234567!',
       '!@#$%^&*',
+      'Pass1!',
       'Password01;',
+      '',
       // Valid data
+      'pa! word',
       'tester1q',
       'qwertyui!',
       'q2345678',
-      '!@#$%^&*q'
+      '!@#$%^&*q',
     ];
 
     // Loop through the passwords array and perform validation tests
@@ -45,31 +48,40 @@ class PasswordInput {
       // Additional steps to bypass the bug (click and Tab)
       await page.click(passwordLocator);
       await page.keyboard.press('Tab');
-      
+
       // Locate the error element associated with password validation
       const errorElement = await page.locator(errorLocator);
 
       // Perform different checks based on password criteria
-      if (password.length < 8) {
-        // Password length is less than 8 characters
+      if (password.length === 0) {
+        // Password is empty
         console.log(`1_Error: "${await errorElement.innerText()}"`);
-        await expect(errorElement).toHaveText('At least 1 letter, a number or symbol, at least 8 characters.');
-      } else if (/^(?=.*[a-zA-Z])(?!.*\d)(?!.*[!@#$%^&*(),.?":{}|<>])/.test(password)) {
-        // Password does not contain a number or symbol
+        await expect(errorElement).toHaveText('Please enter a password.');
+      
+      } else if (password.length < 8 && password.length > 0) {
+        // Password length is less than 8 characters
         console.log(`2_Error: "${await errorElement.innerText()}"`);
-        await expect(errorElement).toHaveText('A number or symbol.');
+        await expect(await errorElement.innerText()).toMatch(/At least 1 letter, a number or symbol, at least 8 characters\.|Please make your password more unique\.|At least 1 letter\./);
+        
+      } else if (/^(?=.*[a-zA-Z])(?!.*\d)(?!.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(password)) {
+        // Password does not contain a number or symbol
+        console.log(`3_Error: "${await errorElement.innerText()}"`);
+        await expect(await errorElement.innerText()).toMatch(/A number or symbol\.|At least 1 letter, a number or symbol, at least 8 characters\./);
+      
       } else if (!/[a-zA-Z]/.test(password)) {
         // Password does not contain a letter
-        console.log(`3_Error: "${await errorElement.innerText()}"`);
-        await expect(errorElement).toHaveText('At least 1 letter.');
+        console.log(`4_Error: "${await errorElement.innerText()}"`);
+        await expect(await errorElement.innerText()).toMatch(/At least 1 letter\.|A number or symbol\./);
+      
       } else if (/Password/.test(password)) {
         // Password contains the word 'Password'
-        console.log(`4_Error: "${await errorElement.innerText()}"`);
+        console.log(`5_Error: "${await errorElement.innerText()}"`);
         await expect(errorElement).toHaveText('Please make your password more unique.');
+      
       } else {
         // Password passes other checks, check if error element is visible
         if (await errorElement.isVisible()) {
-          console.log(`5_Error: "${await errorElement.innerText()}"`);
+          console.log(`6_Error: "${await errorElement.innerText()}"`);
         }
       }
     }

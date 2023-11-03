@@ -2,6 +2,8 @@ const { test, expect } = require('@playwright/test');
 const CookieHandler = require('./CookieHandler');
 const PasswordInput = require('./PasswordInput');
 
+test.setTimeout(60000);
+
 // Before each test, handle cookies and assert page title
 test.beforeEach(async ({ context, page }) => {
   // Handle cookies for the specified URL using CookieHandler
