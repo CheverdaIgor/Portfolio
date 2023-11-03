@@ -27,18 +27,24 @@ describe('Login and Navigation Tests', () => {
             cy.wrap($input)
             .clear({ force: true })
             .type(date, { force: true });
-
+          
           } else if ($input.attr('type') === 'radio') {
             if (!$input.is(':checked')) {
               cy.wrap($input)
               .check({ force: true });
-            } isRadioChecked = index;
+              isRadioChecked = index;
+            }
           
           } else if ($input.attr('type') === 'checkbox') {
             if (!$input.is(':checked')) {
               cy.wrap($input)
               .click({ force: true });
-            } isCheckboxChecked = index;
+              isCheckboxChecked = index;
+            }
+            else {
+              cy.wrap($input)
+              .click({ force: true });
+            }
           
           } else {
             cy.wrap($input)
