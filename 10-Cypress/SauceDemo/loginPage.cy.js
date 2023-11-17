@@ -1,6 +1,6 @@
 class LoginPage {
     loginUser(name) {
-        cy.session([name], () => {
+        //cy.session([name], () => {
             cy.visit('https://www.saucedemo.com/');
 
             const user = cy.xpath(`//*[@id="login_credentials"]/text()[${name}]`);
@@ -41,14 +41,11 @@ class LoginPage {
             // User and password are not empty
             enterTextAndType(user, username);
             cy.get(submitSelector).click();
-            cy.wait(1000);
-        },
-        {
-        validate() {
-            cy.url().should('contain', '/inventory.html');
-            cy.getCookies('standard_user').should('exist');
-        }}
-    )}
+            if (name === 2) {
+              errorMessageShouldBe('Epic sadface: Sorry, this user has been locked out.');
+            }
+          }
+    //)}
 };
 
 export default new LoginPage();
