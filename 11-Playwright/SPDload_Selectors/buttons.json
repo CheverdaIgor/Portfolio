@@ -1,0 +1,78 @@
+[
+  {
+    "name": "\n            \n            \n        ",
+    "selector": "html > body > header > div > div > a"
+  },
+  {
+    "name": "\n            \n                \n                \n                \n            \n        ",
+    "selector": "html > body > header > div > nav > a"
+  },
+  {
+    "name": "Services",
+    "selector": "li#menu-item-6493 > a"
+  },
+  {
+    "name": "App development",
+    "selector": "li#menu-item-6685 > a"
+  },
+  {
+    "name": "Web development",
+    "selector": "li#menu-item-6516 > a"
+  },
+  {
+    "name": "MVP development",
+    "selector": "li#menu-item-6669 > a"
+  },
+  {
+    "name": "SaaS development",
+    "selector": "li#menu-item-6518 > a"
+  },
+  {
+    "name": "Marketplace development",
+    "selector": "li#menu-item-6519 > a"
+  },
+  {
+    "name": "UX/UI design",
+    "selector": "li#menu-item-6508 > a"
+  },
+  {
+    "name": "Discovery phase",
+    "selector": "li#menu-item-6668 > a"
+  },
+  {
+    "name": "Dedicated team",
+    "selector": "li#menu-item-13818 > a"
+  },
+  {
+    "name": "Frontend developers",
+    "selector": "li#menu-item-13819 > a"
+  },
+  {
+    "name": "Backend developers",
+    "selector": "li#menu-item-13820 > a"
+  },
+  {
+    "name": "Mobile app developers",
+    "selector": "li#menu-item-13821 > a"
+  },
+  {
+    "name": "Case studies",
+    "selector": "li#menu-item-15235 > a"
+  },
+  {
+    "name": "Blog",
+    "selector": "li#menu-item-1012 > a"
+  },
+  {
+    "name": "Startup resources",
+    "selector": "li#menu-item-2580 > a"
+  },
+  {
+    "name": "Let's Talk",
+    "selector": "li#menu-item-1037 > a"
+  },
+  {
+    "name": "let's talk",
+    "selector": "html > body > header > div > a"
+  }
+]
