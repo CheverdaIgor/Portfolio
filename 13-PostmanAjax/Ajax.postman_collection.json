@@ -1,0 +1,599 @@
+{
+  "info": {
+    "_postman_id": "2b950ea6-0f8f-4f20-b0f4-d38190375584",
+    "name": "Ajax",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24389603",
+    "_collection_link": "https://go.postman.co/collection/24389603-2b950ea6-0f8f-4f20-b0f4-d38190375584?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();\r",
+              "const responseError = json.error;\r",
+              "const responseCode = pm.response.code;\r",
+              "if (responseCode === 404) {\r",
+              "    pm.test('404 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(404);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`No Status`, () => {\r",
+              "        pm.expect(responseError).to.include('No Status');\r",
+              "    });\r",
+              "} else {\r",
+              "    const id = Math.abs(Number(\r",
+              "        String(pm.variables.get('idStatus')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "    ));\r",
+              "    const status = pm.variables.get('newStatus');\r",
+              "    const rewriteStatus = pm.variables.get('rewriteStatus');\r",
+              "    const version = Math.abs(parseFloat(\r",
+              "        String(pm.variables.get('newVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "    ));\r",
+              "    const updateVersion = Math.abs(parseFloat(\r",
+              "        String(pm.variables.get('updateVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "    ));\r",
+              "    const rewriteVersion = Math.abs(parseFloat(\r",
+              "        String(pm.variables.get('rewriteVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "    ));\r",
+              "\r",
+              "    const responseId = json.data.id;\r",
+              "    const responseStatus = json.data.status;\r",
+              "    const responseVersion = json.data.version;\r",
+              "    const responseHistory = json.data.history;\r",
+              "\r",
+              "    pm.test('200 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(200);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`id: ${responseId}`, () => {\r",
+              "        pm.expect(responseId).to.equal(id);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Status ${responseStatus}`, () => {\r",
+              "        pm.expect([status, rewriteStatus]).to.include(responseStatus);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Version ${responseVersion}`, () => {\r",
+              "        pm.expect([version, updateVersion, rewriteVersion]).to.include(responseVersion);\r",
+              "    });\r",
+              "\r",
+              "    pm.test('History array: id, status, version', () => {\r",
+              "        pm.expect(responseHistory).to.be.an('array');\r",
+              "        responseHistory.forEach((item, index) => {\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('id');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('status');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('version');\r",
+              "        });\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const status = pm.variables.get('newStatus');\r",
+              "const version = Math.abs(parseFloat(\r",
+              "    String(pm.variables.get('newVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "const responseId = json.data.id;\r",
+              "const responseStatus = json.data.status;\r",
+              "const responseVersion = json.data.version;\r",
+              "const responseHistory = json.data.history;\r",
+              "const responseCode = pm.response.code;\r",
+              "if (!status) {\r",
+              "    pm.test('Missing status!', () => {\r",
+              "    pm.expect(responseCode).to.eql(400);\r",
+              "});\r",
+              "} else {\r",
+              "    pm.test('201 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(201);\r",
+              "    });\r",
+              "\r",
+              "    pm.collectionVariables.set('idStatus', responseId);\r",
+              "\r",
+              "    const id = pm.variables.get('idStatus');\r",
+              "    pm.test(`id: ${responseId}`, () => {\r",
+              "        pm.expect(responseId).to.equal(id);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Status ${responseStatus} - CREATED!`, () => {\r",
+              "        pm.expect(responseStatus).to.equal(status);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Version ${responseVersion}`, () => {\r",
+              "        pm.expect(responseVersion).to.equal(version);\r",
+              "    });\r",
+              "\r",
+              "    pm.test('History array: id, status, version', () => {\r",
+              "        pm.expect(responseHistory).to.be.an('array');\r",
+              "        responseHistory.forEach((item, index) => {\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('id');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('status');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('version');\r",
+              "        });\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"{{newStatus}}\",\r\n  \"version\": {{newVersion}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/setStatus",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "setStatus"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const id = Math.abs(Number(\r",
+              "    String(pm.variables.get('idStatus')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "const status = pm.variables.get('newStatus');\r",
+              "const rewriteStatus = pm.variables.get('rewriteStatus');\r",
+              "const version = Math.abs(parseFloat(\r",
+              "    String(pm.variables.get('updateVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "const responseError = json.error;\r",
+              "const responseCode = pm.response.code;\r",
+              "if (responseCode === 400) {\r",
+              "    if (!id || isNaN(id) || !version || isNaN(version)) {\r",
+              "        pm.test('400 OK', () => {\r",
+              "            pm.expect(responseCode).to.eql(400);\r",
+              "        });\r",
+              "\r",
+              "        pm.test(`Invalid or missing parameters!`, () => {\r",
+              "            pm.expect(responseError).to.include('missing');\r",
+              "        });\r",
+              "    }\r",
+              "} else if (responseCode === 404) {\r",
+              "    pm.test('404 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(404);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Resource with this id NOT FOUND!`, () => {\r",
+              "        pm.expect(responseError).to.include('NOT FOUND');\r",
+              "    });\r",
+              "} else {\r",
+              "    const responseId = json.data.id;\r",
+              "    const responseStatus = json.data.status;\r",
+              "    const responseVersion = json.data.version;\r",
+              "    const responseHistory = json.data.history;\r",
+              "\r",
+              "    pm.test('200 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(200);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`id: ${responseId}`, () => {\r",
+              "        pm.expect(responseId).to.equal(id);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Status ${responseStatus}`, () => {\r",
+              "        pm.expect([status, rewriteStatus]).to.include(responseStatus);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Version ${responseVersion} - UPGRADED!`, () => {\r",
+              "        pm.expect(responseVersion).to.equal(version);\r",
+              "        pm.expect(responseVersion).to.be.at.least(0);\r",
+              "    });\r",
+              "\r",
+              "    pm.test('History array: id, status, version', () => {\r",
+              "        pm.expect(responseHistory).to.be.an('array');\r",
+              "        responseHistory.forEach((item, index) => {\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('id');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('status');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('version');\r",
+              "        });\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": {{idStatus}},\r\n  \"version\": {{updateVersion}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/updateStatus",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "updateStatus"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "rewrite",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const id = Math.abs(Number(\r",
+              "    String(pm.variables.get('idStatus')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "const status = pm.variables.get('rewriteStatus');\r",
+              "const version = Math.abs(parseFloat(\r",
+              "    String(pm.variables.get('rewriteVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "const responseError = json.error;\r",
+              "const responseCode = pm.response.code;\r",
+              "if (responseCode === 400) {\r",
+              "    if (!id || isNaN(id) || !status || !version || isNaN(version)) {\r",
+              "        pm.test('400 OK', () => {\r",
+              "            pm.expect(responseCode).to.eql(400);\r",
+              "        });\r",
+              "\r",
+              "        pm.test(`Invalid or missing parameters!`, () => {\r",
+              "            pm.expect(responseError).to.include('missing');\r",
+              "        });\r",
+              "    }\r",
+              "} else if (responseCode === 404) {\r",
+              "    pm.test('404 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(404);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Resource with this id NOT FOUND!`, () => {\r",
+              "        pm.expect(responseError).to.include('NOT FOUND');\r",
+              "    });\r",
+              "} else {\r",
+              "    const responseId = json.data.id;\r",
+              "    const responseStatus = json.data.status;\r",
+              "    const responseVersion = json.data.version;\r",
+              "    const responseHistory = json.data.history;\r",
+              "\r",
+              "    pm.test('200 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(200);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`id: ${responseId}`, () => {\r",
+              "        pm.expect(responseId).to.equal(id);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Status ${responseStatus} - REWRITED!`, () => {\r",
+              "        pm.expect(responseStatus).to.equal(status);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Version ${responseVersion} - REWRITED!`, () => {\r",
+              "        pm.expect(responseVersion).to.equal(version);\r",
+              "        pm.expect(responseVersion).to.be.at.least(0);\r",
+              "    });\r",
+              "\r",
+              "    pm.test('History array: id, status, version', () => {\r",
+              "        pm.expect(responseHistory).to.be.an('array');\r",
+              "        responseHistory.forEach((item, index) => {\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('id');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('status');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('version');\r",
+              "        });\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": {{idStatus}},\r\n  \"status\": \"{{rewriteStatus}}\",\r\n  \"version\": {{rewriteVersion}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rewriteStatus",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rewriteStatus"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "rollback",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const id = Math.abs(Number(\r",
+              "    String(pm.variables.get('idStatus')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "const status = pm.variables.get('newStatus');\r",
+              "const version = Math.abs(parseFloat(\r",
+              "    String(pm.variables.get('newVersion')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "const responseError = json.error;\r",
+              "const responseCode = pm.response.code;\r",
+              "if (responseCode === 400) {\r",
+              "    if (!id || isNaN(id)) {\r",
+              "        pm.test('400 OK', () => {\r",
+              "            pm.expect(responseCode).to.eql(400);\r",
+              "        });\r",
+              "\r",
+              "        pm.test(`Invalid or missing parameters!`, () => {\r",
+              "            pm.expect(responseError).to.include('missing');\r",
+              "        });\r",
+              "    }\r",
+              "} else if (responseCode === 404) {\r",
+              "    pm.test('404 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(404);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Resource with this id NOT FOUND!`, () => {\r",
+              "        pm.expect(responseError).to.include('NOT FOUND');\r",
+              "    });\r",
+              "} else {\r",
+              "    const responseId = json.data.id;\r",
+              "    const responseStatus = json.data.status;\r",
+              "    const responseVersion = json.data.version;\r",
+              "    const responseHistory = json.data.history;\r",
+              "\r",
+              "    pm.test('200 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(200);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`id: ${responseId}`, () => {\r",
+              "        pm.expect(responseId).to.equal(id);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Status ${responseStatus} - ROLLBACK!`, () => {  \r",
+              "        pm.expect(responseStatus).to.equal(status);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Version ${responseVersion} - ROLLBACK!`, () => {\r",
+              "        pm.expect(responseVersion).to.equal(version);\r",
+              "    });\r",
+              "\r",
+              "    pm.test('History array: id, status, version', () => {\r",
+              "        pm.expect(responseHistory).to.be.an('array');\r",
+              "        responseHistory.forEach((item, index) => {\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('id');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('status');\r",
+              "            pm.expect(item, `history[${index}]`).to.have.property('version');\r",
+              "        });\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": {{idStatus}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rollbackStatusVersion",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rollbackStatusVersion"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "remove",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const id = Math.abs(Number(\r",
+              "    String(pm.variables.get('idStatus')).trim().replace(/^[\"']|[\"']$/g, '')\r",
+              "));\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "const responseError = json.error;\r",
+              "const responseCode = pm.response.code;\r",
+              "if (responseCode === 400) {\r",
+              "    if (!id || isNaN(id)) {\r",
+              "        pm.test('400 OK', () => {\r",
+              "            pm.expect(responseCode).to.eql(400);\r",
+              "        });\r",
+              "\r",
+              "        pm.test(`Invalid or missing parameters!`, () => {\r",
+              "            pm.expect(responseError).to.include('missing');\r",
+              "        });\r",
+              "    }\r",
+              "} else if (responseCode === 404) {\r",
+              "    pm.test('404 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(404);\r",
+              "    });\r",
+              "\r",
+              "    pm.test(`Resource with this id NOT FOUND!`, () => {\r",
+              "        pm.expect(responseError).to.include('NOT FOUND');\r",
+              "    });\r",
+              "} else {\r",
+              "    pm.test('200 OK', () => {\r",
+              "        pm.expect(responseCode).to.eql(200);\r",
+              "    });\r",
+              "\r",
+              "    const responseMessage = json.message;\r",
+              "    pm.test(`Status REMOVED!`, () => {\r",
+              "        pm.expect(responseMessage).to.include('Status REMOVED!');\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": {{idStatus}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/removeStatus",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "removeStatus"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "idStatus",
+      "value": ""
+    },
+    {
+      "key": "newStatus",
+      "value": ""
+    },
+    {
+      "key": "rewriteStatus",
+      "value": ""
+    },
+    {
+      "key": "newVersion",
+      "value": ""
+    },
+    {
+      "key": "updateVersion",
+      "value": ""
+    },
+    {
+      "key": "rewriteVersion",
+      "value": ""
+    }
+  ]
+}
